@@ -22,16 +22,20 @@ body{
   padding:20px;
 }
 
+/* 🔝 BAŞLIK – DAHA YUKARIDA */
 h1{
   font-size:2.8rem;
   margin-bottom:10px;
   text-shadow:0 0 20px rgba(255,100,255,.6);
+  transform: translateY(-40px);
 }
 
+/* 🔝 TALİMAT – DAHA YUKARIDA */
 #instruction{
   font-size:1.3rem;
   margin-bottom:20px;
   opacity:.9;
+  transform: translateY(-35px);
 }
 
 /* 🎂 Pasta */
@@ -41,7 +45,7 @@ h1{
   height:120px;
   background:#ffb6c1;
   border-radius:0 0 20px 20px;
-  margin:0 auto 40px;
+  margin:20px auto 40px;
   box-shadow:0 10px 30px rgba(0,0,0,.4);
 }
 
@@ -92,6 +96,7 @@ h1{
 #surprise{
   display:none;
   animation:fadeIn 2s ease;
+  margin-top:20px;
 }
 
 @keyframes fadeIn{
@@ -132,7 +137,7 @@ h1{
     <h1>Seni çok seviyorum Melikemmmmm 💖🎉</h1>
 
     <div class="photos">
-      <img src="IMG-20251215-WA0044.jpg">
+      <img src="IMG-20251215-WA0041.jpg">
       <img src="IMG-20251215-WA0043.jpg">
       <img src="IMG-20251215-WA0042.jpg">
       <img src="IMG-20251215-WA0046.jpg">
@@ -184,7 +189,7 @@ function blowOut(){
   songReady = true;
 }
 
-/* 👆 DOKUNUNCA ŞARKI BAŞLASIN (GARANTİ) */
+/* 👆 DOKUNUNCA ŞARKI BAŞLASIN */
 document.body.addEventListener("click",()=>{
   if(songReady){
     document.getElementById("song").play();
