@@ -20,9 +20,11 @@ body{
 .container{
   text-align:center;
   padding:20px;
+  position:relative;
+  z-index:10;
 }
 
-/* 🔝 BAŞLIK – DAHA YUKARIDA */
+/* 🔝 Yazılar */
 h1{
   font-size:2.8rem;
   margin-bottom:10px;
@@ -30,7 +32,6 @@ h1{
   transform: translateY(-40px);
 }
 
-/* 🔝 TALİMAT – DAHA YUKARIDA */
 #instruction{
   font-size:1.3rem;
   margin-bottom:20px;
@@ -90,6 +91,24 @@ h1{
 
 .flame.off{
   display:none;
+}
+
+/* 🎉 KONFETİ */
+.confetti{
+  position:fixed;
+  top:-10px;
+  width:10px;
+  height:14px;
+  background:red;
+  opacity:0.9;
+  animation:confettiFall 3s linear forwards;
+  z-index:50;
+}
+
+@keyframes confettiFall{
+  to{
+    transform:translateY(110vh) rotate(360deg);
+  }
 }
 
 /* 🎉 Sürpriz */
@@ -158,6 +177,20 @@ let dataArray;
 let blown=false;
 let songReady=false;
 
+/* 🎉 KONFETİ OLUŞTUR */
+function launchConfetti(){
+  const colors=["#ff4d6d","#ffd166","#4cc9f0","#b5179e","#80ed99"];
+  for(let i=0;i<120;i++){
+    const c=document.createElement("div");
+    c.className="confetti";
+    c.style.left=Math.random()*window.innerWidth+"px";
+    c.style.background=colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDuration=2+Math.random()*2+"s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),4000);
+  }
+}
+
 async function initMic(){
   const stream = await navigator.mediaDevices.getUserMedia({ audio:true });
   audioContext = new AudioContext();
@@ -186,6 +219,7 @@ function blowOut(){
   document.getElementById("instruction").innerHTML =
     "🎉 İyi ki doğdun!<br><small>🎶 Şarkıyı başlatmak için ekrana dokun</small>";
   document.getElementById("surprise").style.display="block";
+  launchConfetti(); // 🎉 PATLAMA
   songReady = true;
 }
 
