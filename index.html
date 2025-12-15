@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>İyi ki Doğdun Melike 🎂💖</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:radial-gradient(circle at top,#3a003a,#000);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:'Segoe UI',sans-serif;
+  color:#fff;
+  overflow:hidden;
+}
+
+.container{
+  text-align:center;
+  padding:20px;
+}
+
+h1{
+  font-size:2.8rem;
+  margin-bottom:10px;
+  text-shadow:0 0 20px rgba(255,100,255,.6);
+}
+
+#instruction{
+  font-size:1.3rem;
+  margin-bottom:20px;
+  opacity:.9;
+}
+
+/* 🎂 Pasta */
+.cake{
+  position:relative;
+  width:200px;
+  height:120px;
+  background:#ffb6c1;
+  border-radius:0 0 20px 20px;
+  margin:0 auto 40px;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+
+.cake::before{
+  content:"";
+  position:absolute;
+  top:-30px;
+  left:0;
+  width:100%;
+  height:30px;
+  background:#ff69b4;
+  border-radius:20px 20px 0 0;
+}
+
+/* 🕯️ Mumlar */
+.candle{
+  position:absolute;
+  top:-55px;
+  width:10px;
+  height:35px;
+  background:#fff;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+.flame{
+  position:absolute;
+  top:-18px;
+  left:-6px;
+  width:22px;
+  height:22px;
+  background:radial-gradient(circle,#fff200,#ff4500);
+  border-radius:50%;
+  animation:flicker .15s infinite;
+}
+
+@keyframes flicker{
+  0%{transform:scale(1);}
+  50%{transform:scale(.85);}
+  100%{transform:scale(1);}
+}
+
+.flame.off{
+  display:none;
+}
+
+/* 🎉 Sürpriz */
+#surprise{
+  display:none;
+  animation:fadeIn 2s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(.9);}
+  to{opacity:1;transform:scale(1);}
+}
+
+.photos{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-top:20px;
+}
+
+.photos img{
+  width:100%;
+  border-radius:15px;
+  box-shadow:0 0 20px rgba(255,100,255,.5);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>İyi ki doğdun Melike 🎂💖</h1>
+  <div id="instruction">Mumları üfler misin? 🎤💨</div>
+
+  <!-- 🎂 Pasta -->
+  <div class="cake">
+    <div class="candle">
+      <div class="flame" id="flame"></div>
+    </div>
+  </div>
+
+  <!-- 🎉 SÜRPRİZ -->
+  <div id="surprise">
+    <h1>Seni çok seviyorum Melikemmmmm 💖🎉</h1>
+
+    <div class="photos">
+      <img src="foto1.jpg">
+      <img src="foto2.jpg">
+      <img src="foto3.jpg">
+      <img src="foto4.jpg">
+    </div>
+  </div>
+</div>
+
+<!-- 🎵 ŞARKI -->
+<audio id="song">
+  <source src="melikesarki.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let audioContext;
+let analyser;
+let microphone;
+let dataArray;
+let blown=false;
+
+async function initMic(){
+  const stream = await navigator.mediaDevices.getUserMedia({ audio:true });
+  audioContext = new AudioContext();
+  analyser = audioContext.createAnalyser();
+  microphone = audioContext.createMediaStreamSource(stream);
+  microphone.connect(analyser);
+  analyser.fftSize = 256;
+  dataArray = new Uint8Array(analyser.frequencyBinCount);
+  detectBlow();
+}
+
+function detectBlow(){
+  analyser.getByteFrequencyData(dataArray);
+  let volume = dataArray.reduce((a,b)=>a+b)/dataArray.length;
+
+  if(volume > 40 && !blown){
+    blown = true;
+    blowOut();
+  }
+
+  requestAnimationFrame(detectBlow);
+}
+
+function blowOut(){
+  document.getElementById("flame").classList.add("off");
+  document.getElementById("instruction").innerText="🎉 İyi ki doğdun!";
+  document.getElementById("surprise").style.display="block";
+  document.getElementById("song").play();
+}
+
+initMic();
+</script>
+
+</body>
+</html>
