@@ -56,7 +56,7 @@ h1{
   border-radius:20px 20px 0 0;
 }
 
-/* 🕯️ Mumlar */
+/* 🕯️ Mum */
 .candle{
   position:absolute;
   top:-55px;
@@ -151,6 +151,7 @@ let analyser;
 let microphone;
 let dataArray;
 let blown=false;
+let songReady=false;
 
 async function initMic(){
   const stream = await navigator.mediaDevices.getUserMedia({ audio:true });
@@ -177,10 +178,19 @@ function detectBlow(){
 
 function blowOut(){
   document.getElementById("flame").classList.add("off");
-  document.getElementById("instruction").innerText="🎉 İyi ki doğdun!";
+  document.getElementById("instruction").innerHTML =
+    "🎉 İyi ki doğdun!<br><small>🎶 Şarkıyı başlatmak için ekrana dokun</small>";
   document.getElementById("surprise").style.display="block";
-  document.getElementById("song").play();
+  songReady = true;
 }
+
+/* 👆 DOKUNUNCA ŞARKI BAŞLASIN (GARANTİ) */
+document.body.addEventListener("click",()=>{
+  if(songReady){
+    document.getElementById("song").play();
+    songReady = false;
+  }
+});
 
 initMic();
 </script>
